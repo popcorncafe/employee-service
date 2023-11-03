@@ -1,0 +1,10 @@
+-- WITH new_position AS (
+--     INSERT INTO position (name, salary, roles)
+--         VALUES ('Cashier', 372.86, ARRAY [0])
+--         ('HR', 531.86)
+--         RETURNING id)
+--
+-- INSERT
+-- INTO employee(firstname, surname, date_of_birth, email, phone_number, position_id, store_id, personal_percentage)
+-- VALUES ('Oleg', 'Sidorov', '2019-03-27 17:24:56.754000 +00:00', 'olSidg@gmail.com', '+7-998-392-32-21',
+--         (SELECT new_position.id FROM new_position), gen_random_uuid(), 15);

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: employee-service
+  cloud:
+    config:
+      username: configUser
+      password: configPassword
+      uri: http://${CONFIG_SERVER_HOST}:8888
+  config:
+    import: optional:configserver:${spring.cloud.config.uri}
