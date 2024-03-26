@@ -1,0 +1,51 @@
+name: Java Ci
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+  workflow_dispatch:
+
+jobs:
+
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+
+      - name: Install dependencies
+        run: ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+      - name: Run tests and collect coverage
+        run: ./mvnw -B test
+
+  build_docker_img:
+    needs: [ tests ]
+    if: github.ref == 'refs/heads/main'
+    name: Build and push Docker image
+    uses: ./.github/workflows/build_docker_img.yaml
+    secrets: inherit
+
+  create_pr_if_dev:
+    needs: [ tests ]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        
+      - name: create pull request
+        run: gh pr create -B dev -H main --title 'Auto merge dev >> main' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
