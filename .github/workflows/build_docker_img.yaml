@@ -23,9 +23,6 @@ jobs:
       - name: Build with Maven Wrapper
         run: ./mvnw -B package -DskipTests
 
-#      - name: Copy artifact
-#        run: mv target/**.jar app/application.jar
-
       - name: Create docker build path
         run: mkdir docker-build
 
@@ -33,7 +30,7 @@ jobs:
         run: java -Djarmode=layertools -jar target/*.jar extract --destination docker-build/extracted-jar
 
       - name: Create deps list
-        run: jdeps --ignore-missing-deps -q -recursive --multi-release 21 --print-module-deps -cp 'docker-build/extracted-jar/dependencies/BOOT-INF/lib/*' target/*.jar > docker-build/jdk-module.info
+        run: jdeps --ignore-missing-deps -q -recursive --multi-release 21 --print-module-deps -cp 'docker-build/extracted-jar/dependencies/BOOT-INF/lib/*' target/*.jar > docker-build/jdk-modules.info
 
       - name: Move Dockerfile
         run: mv Dockerfile ./docker-build/

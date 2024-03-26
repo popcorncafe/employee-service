@@ -2,15 +2,15 @@ FROM eclipse-temurin:21-jdk-alpine as build-jre
 
 WORKDIR /opt
 
-COPY jdk-modules.txt .
+COPY jdk-modules.info .
 
 RUN jlink \
-         --add-modules $(cat jdk-modules.txt) \
-         --strip-java-debug-attributes \
-         --no-man-pages \
-         --no-header-files \
-         --compress=2 \
-         --output jdk \
+             --add-modules $(cat jdk-modules.info) \
+             --compress 2 \
+             --no-header-files \
+             --no-man-pages \
+             --strip-debug \
+             --output jdk
 
 FROM alpine:3.19
 
@@ -40,4 +40,4 @@ HEALTHCHECK --interval=5s --timeout=5s --retries=10 CMD wget -qO- http://localho
 
 EXPOSE 8091
 
-ENTRYPOINT ["java", "-cp", "/app", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "-cp", "/app", "org.springframework.boot.loader.launch.JarLauncher"]
