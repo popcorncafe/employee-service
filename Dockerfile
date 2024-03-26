@@ -1,36 +1,23 @@
-FROM eclipse-temurin:21-jdk-alpine as build
+FROM eclipse-temurin:21-jdk-alpine as build-jre
 
-WORKDIR /opt/build
+WORKDIR /opt
 
-ARG RELEASE=21
-
-COPY *.jar ./application.jar
-
-RUN mkdir extracted \
-    && java -Djarmode=layertools -jar application.jar extract --destination extracted
-
-RUN jdeps  \
-    --ignore-missing-deps -q -recursive  \
-    --multi-release ${RELEASE}  \
-    --print-module-deps  \
-    -cp 'extracted/dependencies/BOOT-INF/lib/*' application.jar > deps.info
+COPY jdk-modules.txt .
 
 RUN jlink \
-         --add-modules $(cat deps.info) \
+         --add-modules $(cat jdk-modules.txt) \
          --strip-java-debug-attributes \
          --no-man-pages \
          --no-header-files \
          --compress=2 \
-         --output jdk
+         --output jdk \
 
-FROM alpine:3.18
+FROM alpine:3.19
 
 VOLUME /tmp
 
-ARG BUILD_PATH=/opt/build
-ARG EXTRACTED=$BUILD_PATH/extracted
-ARG APPLICATION_USER=spring-app
-
+ENV EXTRACTED_JAR_PATH=extracted-jar
+ENV APPLICATION_USER=spring-app
 
 ENV JAVA_HOME=/jdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
@@ -44,10 +31,10 @@ USER 1000
 
 WORKDIR /app
 
-COPY --from=build $BUILD_PATH/jdk $JAVA_HOME
-COPY --from=build $EXTRACTED/dependencies/ ./
-COPY --from=build $EXTRACTED/spring-boot-loader/ ./
-COPY --from=build $EXTRACTED/application/ ./
+COPY --from=build-jre opt/jdk $JAVA_HOME
+COPY $EXTRACTED_JAR_PATH/dependencies/ ./
+COPY $EXTRACTED_JAR_PATH/spring-boot-loader/ ./
+COPY $EXTRACTED_JAR_PATH/application/ ./
 
 HEALTHCHECK --interval=5s --timeout=5s --retries=10 CMD wget -qO- http://localhost:8091/actuator/health/ | grep UP || exit 1
 
