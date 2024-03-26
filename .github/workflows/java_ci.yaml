@@ -42,6 +42,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        
       - name: create pull request
         run: gh pr create -B dev -H main --title 'Auto merge dev >> main' --body 'Created by Github action'
         env:
