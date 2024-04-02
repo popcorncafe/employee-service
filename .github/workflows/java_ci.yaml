@@ -41,6 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ tests ]
     if: github.ref == 'refs/heads/dev'
+    permissions:
+        contents: write
+        pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -52,16 +55,3 @@ jobs:
           git commit --allow-empty -m "Create PR from dev to main"
           git push origin pr-branch 
           gh pr create --base main --head pr-branch --title "PR from dev to main" --body "This PR was automatically created."
-
-#  create_pr_if_dev:
-#    needs: [ tests ]
-#    runs-on: ubuntu-latest
-#    if: github.ref == 'refs/heads/dev'
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v4.1.1
-#
-#      - name: create pull request
-#        run: gh pr create -B dev -H main --title 'Auto merge dev >> main' --body 'Created by Github action'
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
