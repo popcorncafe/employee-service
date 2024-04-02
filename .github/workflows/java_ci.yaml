@@ -50,7 +50,7 @@ jobs:
           git config user.email "74130706+artemnefedov@users.noreply.github.com"
           git checkout -b pr-branch
           git commit --allow-empty -m "Create PR from dev to main"
-          git push origin pr-branch --token ${{ secrets.GITHUB_TOKEN }}
+          git push origin pr-branch 
           gh pr create --base main --head pr-branch --title "PR from dev to main" --body "This PR was automatically created."
 
 #  create_pr_if_dev:
