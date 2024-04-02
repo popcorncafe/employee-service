@@ -16,27 +16,25 @@ FROM alpine:3.19
 
 VOLUME /tmp
 
-ENV EXTRACTED_JAR_PATH=extracted-jar
-ENV APPLICATION_USER=spring-app
+ENV JAR_PATH=extracted-jar
+ENV APP_USER=spring-app
 
 ENV JAVA_HOME=/jdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-RUN adduser --no-create-home -u 1000 -D $APPLICATION_USER
+RUN adduser --no-create-home -u 1000 -D $APP_USER
 
 RUN mkdir /app && \
-    chown -R $APPLICATION_USER /app
+    chown -R $APP_USER /app
 
 USER 1000
 
 WORKDIR /app
 
 COPY --from=build-jre opt/jdk $JAVA_HOME
-COPY $EXTRACTED_JAR_PATH/dependencies/ ./
-COPY $EXTRACTED_JAR_PATH/spring-boot-loader/ ./
-COPY $EXTRACTED_JAR_PATH/application/ ./
-
-HEALTHCHECK --interval=5s --timeout=5s --retries=10 CMD wget -qO- http://localhost:8091/actuator/health/ | grep UP || exit 1
+COPY $JAR_PATH/dependencies/ ./
+COPY $JAR_PATH/spring-boot-loader/ ./
+COPY $JAR_PATH/application/ ./
 
 EXPOSE 8091
 
