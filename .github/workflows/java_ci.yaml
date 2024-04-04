@@ -17,18 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: maven
+#      - name: Set up JDK
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: '21'
+#          cache: maven
 
-      - name: Install dependencies
-        run: ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
+#      - name: Install dependencies
+#        ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B
       - name: Run tests and collect coverage
-        run: ./mvnw -B test
+        run: echo "I don't have tests yet"
+#        ./mvnw -B test
 
   build_docker_img:
     needs: [ tests ]
@@ -54,6 +54,6 @@ jobs:
           git config user.name "Artem Nefedov"
           git config user.email "74130706+artemnefedov@users.noreply.github.com"
           git checkout -b dev-auto-pr
-          git commit --allow-empty -m "Create PR from dev to main"
+          git commit --allow-empty -S -m "Create PR from dev to main"
           git push origin dev-auto-pr
           gh pr create --base main --head dev-auto-pr --title "PR from dev to main" --body "This PR was automatically created."
