@@ -53,6 +53,8 @@ jobs:
         run: |
           git config user.name "Artem Nefedov"
           git config user.email "74130706+artemnefedov@users.noreply.github.com"
+          git config user.signingkey ${{ secrets.GPG_SIGN_KEY }}
+          git config commit.gpgsign true
           git checkout -b dev-auto-pr
           git commit --allow-empty -S -m "Create PR from dev to main"
           git push origin dev-auto-pr
