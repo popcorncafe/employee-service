@@ -6,7 +6,6 @@ COPY jdk-modules.info .
 
 RUN jlink \
              --add-modules $(cat jdk-modules.info) \
-             --compress 2 \
              --no-header-files \
              --no-man-pages \
              --strip-debug \
@@ -24,8 +23,7 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 RUN adduser --no-create-home -u 1000 -D $APP_USER
 
-RUN mkdir /app && \
-    chown -R $APP_USER /app
+RUN mkdir /app && chown -R $APP_USER /app
 
 USER 1000
 
