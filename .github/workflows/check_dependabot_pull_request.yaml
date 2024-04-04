@@ -48,3 +48,4 @@ jobs:
       name: Build and push Docker image
       uses: ./.github/workflows/build_docker_img.yaml
       secrets: inherit
+

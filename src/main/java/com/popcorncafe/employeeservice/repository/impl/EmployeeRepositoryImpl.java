@@ -25,7 +25,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public List<Employee> getEmployees(Page page) {
         return parameterJdbcTemplate.query("""
                 SELECT * FROM employee
-                ORDER BY                           
+                ORDER BY surname
                 LIMIT :page_size
                 OFFSET :page_offset
                 """,
@@ -130,6 +130,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         return parameterJdbcTemplate.query("""
                 SELECT * FROM employee
                 WHERE store_id = :store_id
+                ORDER BY surname
                 """,
                 Map.of("store_id", id), new EmployeeMapper());
     }

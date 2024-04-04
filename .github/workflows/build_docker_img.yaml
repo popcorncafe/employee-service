@@ -11,7 +11,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4.0.0
@@ -38,13 +38,12 @@ jobs:
       - name: Remove snapshot deps path
         run: rm -rf docker-build/extracted-jar/snapshot-dependencies
 
-      - run: cd docker-build && tree -L 2
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.3.1
         with:
           name: docker_build_path
           path: ./docker-build
+          retention-days: 1
 
   build_docker_img:
     runs-on: ubuntu-latest
