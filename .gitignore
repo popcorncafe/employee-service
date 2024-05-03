@@ -1,3 +1,6 @@
 /.idea/
 /target/
 /employee-service.iml
+.classpath
+.project
+/.settings/
