@@ -5,6 +5,8 @@ on: pull_request_target
 permissions:
   pull-requests: write
   contents: write
+  actions: read
+  checks: write
 
 jobs:
     check_pull_request:
@@ -26,7 +28,14 @@ jobs:
 
         - name: Run tests and collect coverage
           run: ./mvnw -B test
-#      todo publish test results
+
+        - name: Test Report
+          uses: dorny/test-reporter@v1.8.0
+          if: success() || failure()
+          with:
+            name: Employee Service Tests
+            path: 'target/surefire-reports/TEST-*.xml'
+            reporter: java-junit
 
     approve_dependabot_pull_request:
       runs-on: ubuntu-latest
@@ -42,9 +51,3 @@ jobs:
           env:
             PR_URL: ${{github.event.pull_request.html_url}}
             GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-    build_docker_img:
-      needs: [approve_dependabot_pull_request]
-      name: Build and push Docker image
-      uses: ./.github/workflows/build_docker_img.yaml
-      secrets: inherit
