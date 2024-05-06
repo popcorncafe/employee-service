@@ -30,7 +30,7 @@ jobs:
           run: ./mvnw -B test
 
         - name: Test Report
-          uses: dorny/test-reporter@v1.8.0
+          uses: dorny/test-reporter@v1.9.0
           if: success() || failure()
           with:
             name: Employee Service Tests
