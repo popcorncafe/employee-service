@@ -213,10 +213,10 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void EmployeeRepository_HasEmployeeWithThisNumber_ReturnsTrue() {
+    void EmployeeRepository_HasEmployeeWithNumber_ReturnsTrue() {
         var expectedEmployee = testEmployee.get(rn.nextInt(testEmployee.size()));
 
-        var result = employeeRepository.hasEmployeeWithThisNumber(expectedEmployee.phoneNumber());
+        var result = employeeRepository.hasEmployeeWithNumber(expectedEmployee.phoneNumber());
 
         assertThat(result).isTrue();
     }
