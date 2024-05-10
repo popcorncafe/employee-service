@@ -21,7 +21,7 @@ public interface EmployeeRepository {
 
     boolean deleteEmployee(UUID id);
 
-    boolean hasEmployeeWithThisNumber(String phoneNumber);
+    boolean hasEmployeeWithNumber(String phoneNumber);
 
     List<Employee> getEmployeesByStoreId(UUID id);
 

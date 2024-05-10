@@ -115,7 +115,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public boolean hasEmployeeWithThisNumber(String phoneNumber) {
+    public boolean hasEmployeeWithNumber(String phoneNumber) {
         return parameterJdbcTemplate.queryForObject("""
                 SELECT EXISTS (
                 SELECT employee.id FROM employee
