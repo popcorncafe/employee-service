@@ -17,9 +17,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper mapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper mapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
-        this.mapper = mapper;
+        this.mapper = employeeMapper;
     }
 
 
@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean hasEmployeeWithNumber(String phoneNumber) {
-        return employeeRepository.hasEmployeeWithThisNumber(phoneNumber);
+        return employeeRepository.hasEmployeeWithNumber(phoneNumber);
     }
 
     @Override
