@@ -15,9 +15,9 @@ public class PositionServiceImpl implements PositionService {
     private final PositionRepository positionRepository;
     private final PositionMapper mapper;
 
-    public PositionServiceImpl(PositionRepository positionRepository, PositionMapper mapper) {
+    public PositionServiceImpl(PositionRepository positionRepository) {
         this.positionRepository = positionRepository;
-        this.mapper = mapper;
+        this.mapper = new PositionMapper();
     }
 
     @Override

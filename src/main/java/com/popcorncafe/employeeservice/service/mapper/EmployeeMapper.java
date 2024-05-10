@@ -2,9 +2,7 @@ package com.popcorncafe.employeeservice.service.mapper;
 
 import com.popcorncafe.employeeservice.repository.model.Employee;
 import com.popcorncafe.employeeservice.service.dto.EmployeeDto;
-import org.springframework.stereotype.Component;
 
-@Component
 public class EmployeeMapper implements Mapper<Employee, EmployeeDto> {
     @Override
     public Employee toModel(EmployeeDto dto) {

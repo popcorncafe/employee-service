@@ -3,9 +3,7 @@ package com.popcorncafe.employeeservice.service.mapper;
 import com.popcorncafe.employeeservice.repository.model.Position;
 import com.popcorncafe.employeeservice.repository.model.Role;
 import com.popcorncafe.employeeservice.service.dto.PositionDto;
-import org.springframework.stereotype.Component;
 
-@Component
 public class PositionMapper implements Mapper<Position, PositionDto> {
     @Override
     public Position toModel(PositionDto dto) {
