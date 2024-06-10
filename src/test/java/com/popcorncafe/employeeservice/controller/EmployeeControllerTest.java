@@ -50,6 +50,8 @@ class EmployeeControllerTest {
         for (int i = 0; i < rn.nextInt(100); i++) {
             employees.add(createFakeEmployee());
         }
+
+        employee = createFakeEmployee();
     }
 
     private EmployeeDto createFakeEmployee() {
