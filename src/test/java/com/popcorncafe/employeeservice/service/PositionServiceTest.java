@@ -5,6 +5,7 @@ import com.popcorncafe.employeeservice.repository.model.Position;
 import com.popcorncafe.employeeservice.repository.model.Role;
 import com.popcorncafe.employeeservice.service.dto.PositionDto;
 import com.popcorncafe.employeeservice.service.impl.PositionServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,15 +30,30 @@ class PositionServiceTest {
     @InjectMocks
     private PositionServiceImpl positionService;
 
-    private Random rn = new Random();
+    private final Random rn = new Random();
+
+    private final List<Position> positions = new ArrayList<>();
+    private Position position;
+    private PositionDto positionDto;
+
+    @BeforeEach
+    void setUp() {
+        for (int i = 0; i < rn.nextInt(100); i++) {
+            positions.add(createFakePosition());
+        }
+
+        position = createFakePosition();
+
+        positionDto = new PositionDto(
+                position.id(),
+                position.name(),
+                position.salary(),
+                position.roles().stream().map(Role::name).toList()
+        );
+    }
 
     @Test
     void PositionService_GetPositions_ReturnsListOfPositionDtos() {
-        List<Position> positions = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++) {
-            positions.add(createFakePosition());
-        }
 
         Mockito.when(positionRepository.getPositions())
                 .thenReturn(positions);
@@ -49,7 +65,6 @@ class PositionServiceTest {
 
     @Test
     void PositionService_GetPosition_ReturnsPositionDto() {
-        var position = createFakePosition();
 
         Mockito.when(positionRepository.getPosition(Mockito.any(UUID.class)))
                 .thenReturn(Optional.of(position));
@@ -108,7 +123,6 @@ class PositionServiceTest {
 
     @Test
     void PositionService_DeletePosition_ReturnsResult() {
-        var position = createFakePosition();
 
         Mockito.when(positionRepository.deletePosition(position.id()))
                 .thenReturn(true);
