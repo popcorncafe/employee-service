@@ -5,6 +5,6 @@ public record Page(
         int number
 ) {
     public int offset() {
-        return this.number() * this.size();
+        return number() * size();
     }
 }
