@@ -91,7 +91,7 @@ class EmployeeRepositoryTest {
 
     @Test
     void EmployeeRepository_GetEmployees_ReturnsAllEmployees() {
-        List<Employee> employees = employeeRepository.getEmployees(new Page(testEmployee.size(), 0));
+        List<Employee> employees = employeeRepository.getEmployees(new Page(testEmployee.size(), 1));
 
         assertThat(employees).isNotNull();
         assertThat(employees.size()).isEqualTo(testEmployee.size());
